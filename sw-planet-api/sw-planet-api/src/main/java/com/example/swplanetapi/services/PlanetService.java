@@ -1,5 +1,7 @@
 package com.example.swplanetapi.services;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.example.swplanetapi.domains.Planet;
@@ -22,4 +24,7 @@ public class PlanetService {
         return planet;
     }
 
+    public Optional<Planet> findPlanetById(Long id){
+        return planetRepository.findById(id);
+    }
 }
