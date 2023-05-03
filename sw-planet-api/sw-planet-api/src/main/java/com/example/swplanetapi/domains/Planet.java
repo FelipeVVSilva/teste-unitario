@@ -1,4 +1,4 @@
-package com.example.swplanetapi;
+package com.example.swplanetapi.domains;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
