@@ -1,5 +1,6 @@
 package com.example.swplanetapi.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -27,4 +28,9 @@ public class PlanetService {
     public Optional<Planet> findPlanetById(Long id){
         return planetRepository.findById(id);
     }
+
+    public Optional<Planet> findPlanetByName(String name){
+        return planetRepository.findPlanetByName(name);
+    }
+
 }

@@ -8,5 +8,7 @@ public class PlanetConstants {
     public static final Planet INVALID_PLANET = new Planet(null, "", "","");
     public static final Long EXISTING_ID = 1L;
     public static final Long NON_EXISTING_ID = 1L;
+    public static final String EXISTING_NAME = "name";
+    public static final String NON_EXISTING_NAME = "XXX";
 
 }
