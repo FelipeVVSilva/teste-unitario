@@ -3,10 +3,12 @@ package com.example.swplanetapi.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.example.swplanetapi.domains.Planet;
 import com.example.swplanetapi.repositories.PlanetRepository;
+import com.example.swplanetapi.repositories.QueryBuilder;
 
 
 
@@ -33,4 +35,16 @@ public class PlanetService {
         return planetRepository.findPlanetByName(name);
     }
 
+    public List<Planet> findAllPlanets(String terrain, String climate){
+        Example<Planet> query = QueryBuilder.makeQuery(new Planet(climate, terrain));
+        return planetRepository.findAll(query);
+    }
+
+    public List<Planet> list(String climate, String terrain) {
+        return null;
+    }
+
+    public void deletePlanet(Long id){
+        planetRepository.deleteById(id);
+    }
 }

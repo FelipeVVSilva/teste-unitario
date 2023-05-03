@@ -1,6 +1,7 @@
 package com.example.swplanetapi.controllers;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.swplanetapi.domains.Planet;
 import com.example.swplanetapi.services.PlanetService;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,6 +45,20 @@ public class PlanetController {
     public ResponseEntity<Planet> findPlanetById(@PathVariable String name) {
         return planetService.findPlanetByName(name).map(planet -> ResponseEntity.ok(planet))
           .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Planet>> findAllPlanets(
+              @RequestParam(required = false) String terrain,
+              @RequestParam(required = false) String climate){
+      List<Planet> list = planetService.findAllPlanets(terrain, climate);
+      return ResponseEntity.ok().body(list);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePlanetById(@PathVariable Long id){
+      planetService.deletePlanet(id);
+      return ResponseEntity.noContent().build();
     }
 
 }
