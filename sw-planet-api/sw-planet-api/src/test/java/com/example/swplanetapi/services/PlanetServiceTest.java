@@ -9,26 +9,19 @@ import static com.example.swplanetapi.common.PlanetConstants.EXISTING_NAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.cfg.annotations.QueryBinder;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Example;
 
 import com.example.swplanetapi.domains.Planet;
 import com.example.swplanetapi.repositories.PlanetRepository;
-import com.example.swplanetapi.repositories.QueryBuilder;
 
 @ExtendWith(MockitoExtension.class)
 public class PlanetServiceTest {
