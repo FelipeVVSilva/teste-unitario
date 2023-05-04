@@ -10,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import com.example.swplanetapi.domains.Planet;
 
 import static com.example.swplanetapi.common.PlanetConstants.PLANET;
-import static com.example.swplanetapi.common.PlanetConstants.INVALID_PLANET;;
 
 @DataJpaTest
 public class PlanetRepositoryTeste {
