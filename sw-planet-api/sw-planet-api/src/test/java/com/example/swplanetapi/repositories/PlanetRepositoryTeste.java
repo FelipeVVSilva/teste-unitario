@@ -75,9 +75,29 @@ public class PlanetRepositoryTeste {
     }
 
     @Test
-    public void getPlane_ByUnexistingId_ReturnsPlanet(){
+    public void getPlane_ByUnexistingId_NotFound(){
 
         Optional<Planet> planetOpt = planetRepository.findById(1L);
+
+        assertThat(planetOpt).isEmpty();
+
+    }
+
+    @Test
+    public void getPlane_ByExistingName_ReturnsPlanet(){
+
+        Planet planet = testEntityManager.persistAndFlush(PLANET);
+        Optional<Planet> planetOPt = planetRepository.findById(1L);
+
+        assertThat(planetOPt).isNotEmpty();
+        assertThat(planetOPt.get()).isEqualTo(planet);
+
+    }
+
+    @Test
+    public void getPlane_ByUnexistingName_NotFound(){
+
+        Optional<Planet> planetOpt = planetRepository.findPlanetByName("name");
 
         assertThat(planetOpt).isEmpty();
 

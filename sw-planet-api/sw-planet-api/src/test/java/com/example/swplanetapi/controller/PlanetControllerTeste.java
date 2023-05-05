@@ -95,10 +95,31 @@ public class PlanetControllerTeste {
     }
 
     @Test
-    public void getPlane_ByUnexistingId_ReturnsPlanet() throws Exception{
+    public void getPlane_ByUnexistingId_Returns404() throws Exception{
 
         mockMvc
             .perform(get("/planets/1"))
+        .andExpect(status().isNotFound());
+
+    }
+
+    @Test
+    public void getPlanet_ByExistingName_ReturnsPlanet() throws Exception{
+
+        when(planetService.findPlanetByName(PLANET.getName())).thenReturn(Optional.of(PLANET));
+
+        mockMvc
+            .perform(get("/planets/name/" + PLANET.getName()))
+        .andExpect(jsonPath("$").value(PLANET))
+        .andExpect(status().isOk());
+
+    }
+
+    @Test
+    public void getPlanet_ByUnexistingName_ReturnsPlanet() throws Exception{
+
+        mockMvc
+            .perform(get("/planets/name/name"))
         .andExpect(status().isNotFound());
 
     }
