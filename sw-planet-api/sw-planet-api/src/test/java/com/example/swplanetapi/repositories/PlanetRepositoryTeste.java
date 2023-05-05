@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.example.swplanetapi.domains.Planet;
 
@@ -25,9 +26,9 @@ public class PlanetRepositoryTeste {
     private TestEntityManager testEntityManager;
 
     @AfterEach
-    public void setup(){
+    public void afterEach(){
         PLANET.setId(null);
-    } 
+    }
 
     @Test
     public void createPlanet_WithValidData_ReturnsPlanet(){
@@ -86,8 +87,8 @@ public class PlanetRepositoryTeste {
     @Test
     public void getPlane_ByExistingName_ReturnsPlanet(){
 
-        Planet planet = testEntityManager.persistAndFlush(PLANET);
-        Optional<Planet> planetOPt = planetRepository.findById(1L);
+        Planet planet = testEntityManager.persistFlushFind(PLANET);
+        Optional<Planet> planetOPt = planetRepository.findPlanetByName(planet.getName());
 
         assertThat(planetOPt).isNotEmpty();
         assertThat(planetOPt.get()).isEqualTo(planet);
@@ -103,4 +104,21 @@ public class PlanetRepositoryTeste {
 
     }
 
+    @Test
+    public void deletePlanet_ByExistingId_RemovesPlanetFromDatabase(){
+
+        Planet planet = testEntityManager.persistFlushFind(PLANET);
+
+        planetRepository.deleteById(PLANET.getId());
+
+        Planet removedPlanet = testEntityManager.find(Planet.class, planet.getId());
+
+        assertThat(removedPlanet).isNull();
+
+    }
+
+    @Test
+    public void deletePlanet_ByUnexistingId_ThrowsException(){
+        assertThatThrownBy(() -> planetRepository.deleteById(1L)).isInstanceOf(EmptyResultDataAccessException.class);
+    }
 }
