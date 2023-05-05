@@ -2,6 +2,10 @@ package com.example.swplanetapi.repositories;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import java.util.Optional;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -19,6 +23,11 @@ public class PlanetRepositoryTeste {
 
     @Autowired
     private TestEntityManager testEntityManager;
+
+    @AfterEach
+    public void setup(){
+        PLANET.setId(null);
+    } 
 
     @Test
     public void createPlanet_WithValidData_ReturnsPlanet(){
@@ -51,6 +60,26 @@ public class PlanetRepositoryTeste {
         planet.setId(null);
 
         assertThatThrownBy(() -> planetRepository.save(planet)).isInstanceOf(RuntimeException.class);
+
+    }
+
+    @Test
+    public void getPlane_ByExistingId_ReturnsPlanet(){
+
+        Planet planet = testEntityManager.persistFlushFind(PLANET);
+        Optional<Planet> planetOpt = planetRepository.findById(planet.getId());
+
+        assertThat(planetOpt).isNotNull();
+        assertThat(planetOpt.get()).isEqualTo(planet);
+
+    }
+
+    @Test
+    public void getPlane_ByUnexistingId_ReturnsPlanet(){
+
+        Optional<Planet> planetOpt = planetRepository.findById(1L);
+
+        assertThat(planetOpt).isEmpty();
 
     }
 
