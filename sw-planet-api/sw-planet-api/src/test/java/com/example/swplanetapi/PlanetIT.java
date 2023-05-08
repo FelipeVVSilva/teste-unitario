@@ -16,6 +16,7 @@ import com.example.swplanetapi.domains.Planet;
 
 @ActiveProfiles("it")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@Sql(scripts = {"/import_planets.sql"}, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = {"/remove_planets.sql"}, executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
 public class PlanetIT {
 
@@ -34,6 +35,21 @@ public class PlanetIT {
         assertThat(sut.getName()).isEqualTo(PLANET.getName());
         assertThat(sut.getClimate()).isEqualTo(PLANET.getClimate());
         assertThat(sut.getTerrain()).isEqualTo(PLANET.getTerrain());
+
+    }
+
+    @Test
+    public void getPlanetById_ReturnsCreated(){
+
+        Planet sut = webTestClient.get().uri("/planets/1")
+            .exchange().expectStatus().isOk().expectBody(Planet.class)
+            .returnResult().getResponseBody();
+
+        assertThat(sut).isNotNull();
+        assertThat(sut.getId()).isEqualTo(1L);
+        assertThat(sut.getName()).isEqualTo("Terra");
+        assertThat(sut.getClimate()).isEqualTo("Atmosférico");
+        assertThat(sut.getTerrain()).isEqualTo("Sólido");
 
     }
 
