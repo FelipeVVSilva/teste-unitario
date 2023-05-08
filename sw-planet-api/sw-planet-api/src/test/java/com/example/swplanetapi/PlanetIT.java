@@ -53,5 +53,28 @@ public class PlanetIT {
 
     }
 
+    @Test
+    public void getPlanetByName_ReturnsCreated(){
+
+        Planet sut = webTestClient.get().uri("/planets/name/Terra")
+            .exchange().expectStatus().isOk().expectBody(Planet.class)
+            .returnResult().getResponseBody();
+
+        assertThat(sut).isNotNull();
+        assertThat(sut.getId()).isEqualTo(1L);
+        assertThat(sut.getName()).isEqualTo("Terra");
+        assertThat(sut.getClimate()).isEqualTo("Atmosférico");
+        assertThat(sut.getTerrain()).isEqualTo("Sólido");
+
+    }
+
+    @Test
+    public void removePlanet_ReturnsNoContent(){
+
+        assertThat(() -> webTestClient.delete().uri("/planets/1")
+        .exchange().expectStatus().isNoContent());
+
+    }
+
 
 }
