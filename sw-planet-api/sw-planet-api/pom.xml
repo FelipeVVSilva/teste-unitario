@@ -89,6 +89,16 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-------
+			
+				COMANDOS PARA RODAR TESTES:
+
+				mvn clean verify - Roda todos os testes
+				mvn clean test - Roda só os testes unitários
+				mvn clean verify -DskipITs=true - Roda só os testes unitários
+				mvn clean verify -Dsurefire.skip=true - Roda só os testes de integração
+
+			----->
 
 		</plugins>
 	</build>
